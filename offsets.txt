@@ -1,0 +1,7 @@
+InitHost: 0x314AE0
+NotiControlMessage: 0x317BF0
+GObjects: 0x47B8020
+GEngine: 0x48AFA58
+FNameToString: 0x11FDBA0
+FreeMemory: 0x1138AC0
+SpawnActor: 0x20B2140
