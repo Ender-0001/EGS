@@ -18,16 +18,11 @@ void* (*WelcomePlayer)(UObject* World, UObject* NetConnection); //UWorld::Welcom
 
 void* NotifyControlMessageHook(UObject* Beacon, UObject* NetConnection, uint8_t MessageType, void* FInBunch) //AOnlineBeaconHost::NotifyControlMessage
 {
-<<<<<<< Updated upstream
     std::cout << "NotifyControlMessage Hook: " << std::to_string(MessageType) << std::endl;
-=======
-<<<<<<< HEAD
     std::cout << "NotifyControlMessage Hook: " << std::to_string(MessageType) << std::endl;
-=======
-    // MessageType Numbers https://github.com/EpicGames/UnrealEngine/blob/c3caf7b6bf12ae4c8e09b606f10a09776b4d1f38/Engine/Source/Runtime/Engine/Public/Net/DataChannel.h#L148
+    // MessageType Numbers https://github.com/EpicGames/UnrealEngine/blob/4.16/Engine/Source/Runtime/Engine/Public/Net/DataChannel.h#L378
+    std::cout << "MessageType: " << MessageType << std::endl;
     std::cout << "MessageType: " << std::to_string(MessageType) << std::endl;
->>>>>>> 92df12a4288e25d197428f5253edec15c4ca1971
->>>>>>> Stashed changes
     if (std::stoi(std::to_string(MessageType)) == 5)
     {
         //WelcomePlayer(UE4::GetWorld(), NetConnection);
