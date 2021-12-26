@@ -117,12 +117,10 @@ public:
 		return i < Num();
 	}
 
+public:
 	T* Data;
 	int32_t Count;
 	int32_t Max;
-
-private:
-	
 };
 
 class FNameEntry
@@ -431,7 +429,7 @@ public:
 };
 
 template<class T, class TWeakObjectPtrBase = FWeakObjectPtr>
-struct TWeakObjectPtr : public TWeakObjectPtrBase
+struct TWeakObjectPtr : private TWeakObjectPtrBase
 {
 public:
 	inline T* Get() const

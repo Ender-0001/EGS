@@ -11179,12 +11179,7 @@ void AStrategicBuildingActor::OnRep_bIsActive()
 }
 
 
-// Function FortniteGame.StrategicBuildingActor.OnConstruction
-// 
-// 
-// 
-// 
-// PlayEffects
+// Function FortniteGame.StrategicBuildingActor.OnConstructionTickPlayEffects
 // (BlueprintCosmetic, Native, Event, Protected, BlueprintEvent)
 // Parameters:
 // float                          DeltaTime                      (Parm, ZeroConstructor, IsPlainOldData)

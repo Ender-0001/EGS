@@ -21,8 +21,7 @@ public:
 	float                                              BeaconConnectionInitialTimeout;                           // 0x0390(0x0004) (ZeroConstructor, Config, IsPlainOldData)
 	float                                              BeaconConnectionTimeout;                                  // 0x0394(0x0004) (ZeroConstructor, Config, IsPlainOldData)
 	class UNetDriver*                                  NetDriver;                                                // 0x0398(0x0008) (ZeroConstructor, IsPlainOldData)
-	int BeaconState;
-	unsigned char                                      UnknownData01[12];                                      // 0x03A0(0x0010) MISSED OFFSET
+	unsigned char                                      UnknownData01[0x10];                                      // 0x03A0(0x0010) MISSED OFFSET
 
 	static UClass* StaticClass()
 	{
@@ -105,6 +104,7 @@ public:
 	int                                                ListenPort;                                               // 0x03B0(0x0004) (ZeroConstructor, Config, IsPlainOldData)
 	unsigned char                                      UnknownData00[0x4];                                       // 0x03B4(0x0004) MISSED OFFSET
 	TArray<class AOnlineBeaconClient*>                 ClientActors;                                             // 0x03B8(0x0010) (ZeroConstructor)
+	int												   BeaconState;
 	unsigned char                                      UnknownData01[0xA0];                                      // 0x03C8(0x00A0) MISSED OFFSET
 
 	static UClass* StaticClass()

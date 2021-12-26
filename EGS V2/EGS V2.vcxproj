@@ -153,12 +153,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="SDK\FN_Basic.cpp" />
+    <ClCompile Include="SDK\FN_CoreUObject_functions.cpp" />
+    <ClCompile Include="SDK\FN_Engine_functions.cpp" />
+    <ClCompile Include="SDK\FN_FortniteGame_functions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Types.hpp" />
-    <ClInclude Include="UE4.hpp" />
-    <ClInclude Include="Util.h" />
+    <ClInclude Include="Beacons.hpp" />
+    <ClInclude Include="Globals.hpp" />
+    <ClInclude Include="minhook\minhook.h" />
+    <ClInclude Include="Offsets.hpp" />
+    <ClInclude Include="SDK.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="minhook\minhook.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
