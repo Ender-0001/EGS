@@ -35,11 +35,13 @@ unsigned long __stdcall Main(void*)
 
     if (Globals::Pawn)
     {
+        MessageBoxA(NULL, "If this crashes your gay", "Test", MB_OK);
         auto LocalPlayerController = reinterpret_cast<AFortPlayerControllerAthena*>(Globals::GEngine->GameViewport->World->OwningGameInstance->LocalPlayers[0]->PlayerController);
         LocalPlayerController->Possess(Globals::Pawn);
 
-        Sleep(2000);
+        Sleep(3000);
 
+        MessageBoxA(NULL, "No gay", "Test", MB_OK);
         LocalPlayerController->ServerReadyToStartMatch();
         static_cast<AGameMode*>(Globals::World->AuthorityGameMode)->StartMatch();
     }
