@@ -19,8 +19,21 @@ enum EBeaconState
 
 unsigned long __stdcall Main(void*)
 {
+    AllocConsole();
+
+    FILE* pFile;
+    freopen_s(&pFile, "CONIN$", "r", stdin);
+    freopen_s(&pFile, "CONOUT$", "w", stderr);
+    freopen_s(&pFile, "CONOUT$", "w", stdout);
+
     MH_Initialize();
     Globals::Init();
+    /*auto Console = UConsole::StaticClass()->CreateDefaultObject<UConsole>();
+    Console->Outer = Globals::LocalPlayer->ViewportClient;
+
+    Globals::LocalPlayer->ViewportClient->ViewportConsole = Console;
+
+    MessageBoxA(NULL, "Press okay when the loading bar is ready", "EGS V2", MB_OK);*/
     Beacons::Init();
 
     auto Beacon = SpawnActor<AOnlineBeaconHost>(AOnlineBeaconHost::StaticClass(), { 0, 0, 10000 }, {});
@@ -35,20 +48,15 @@ unsigned long __stdcall Main(void*)
 
     if (Globals::Pawn)
     {
-        MessageBoxA(NULL, "If this crashes your gay", "Test", MB_OK);
-        auto LocalPlayerController = reinterpret_cast<AFortPlayerControllerAthena*>(Globals::GEngine->GameViewport->World->OwningGameInstance->LocalPlayers[0]->PlayerController);
-        LocalPlayerController->Possess(Globals::Pawn);
+        Globals::PlayerController->Possess(Globals::Pawn);
 
-        Sleep(3000);
+        Sleep(2000);
 
-        MessageBoxA(NULL, "No gay", "Test", MB_OK);
-        LocalPlayerController->ServerReadyToStartMatch();
+        Globals::PlayerController->ServerReadyToStartMatch();
         static_cast<AGameMode*>(Globals::World->AuthorityGameMode)->StartMatch();
     }
     else
-    {
-        MessageBoxA(NULL, "Invalid Pawn", "Test", MB_OK);
-    }
+        MessageBoxA(NULL, "Invalid PlayerPawn", "EGS V2", MB_OK);
 
     return 0;
 }

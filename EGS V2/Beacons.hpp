@@ -65,6 +65,6 @@ namespace Beacons
 		MH_CreateHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x21D8700), Hooks::SpawnPlayActorHook, reinterpret_cast<void**>(&SpawnPlayActor));
 		MH_EnableHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x21D8700));
 		MH_CreateHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x2315350), Hooks::ClientTravelHook, nullptr);
-		MH_EnableHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x2315350));
+		MH_EnableHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x2315350));	
 	}
 }

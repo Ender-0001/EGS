@@ -21,6 +21,8 @@ namespace Globals
 	UEngine* GEngine;
 	UGameplayStatics* GameplayStatics;
 	UWorld* World;
+	ULocalPlayer* LocalPlayer;
+	AFortPlayerControllerAthena* PlayerController;
 	APlayerPawn_Athena_C* Pawn;
 
 	static void Init()
@@ -29,8 +31,10 @@ namespace Globals
 		FName::GNames = *reinterpret_cast<TNameEntryArray**>(ReadPtr<uintptr_t**>(Offsets::GNamesOffset));
 		UObject::GObjects = reinterpret_cast<FUObjectArray*>(ReadPtr<uintptr_t*>(Offsets::GUObjectArrayOffset));
 
-		World = Globals::GEngine->GameViewport->World;
-		Globals::GameplayStatics = reinterpret_cast<UGameplayStatics*>(UGameplayStatics::StaticClass());
+		GameplayStatics = reinterpret_cast<UGameplayStatics*>(UGameplayStatics::StaticClass());
+		World = GEngine->GameViewport->World;
+		LocalPlayer = Globals::World->OwningGameInstance->LocalPlayers[0];
+		PlayerController = reinterpret_cast<AFortPlayerControllerAthena*>(LocalPlayer->PlayerController);
 	}
 }
 
