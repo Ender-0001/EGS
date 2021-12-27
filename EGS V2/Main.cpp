@@ -17,6 +17,19 @@ enum EBeaconState
     DenyRequests
 };
 
+DWORD MainThread(LPVOID lpParam)
+{
+    while (true)
+    {
+        if (GetAsyncKeyState(VK_SPACE) & 0x8000)
+        {
+            
+        }
+
+        Sleep(1000 / 60);
+    }
+}
+
 unsigned long __stdcall Main(void*)
 {
     AllocConsole();
@@ -61,6 +74,8 @@ unsigned long __stdcall Main(void*)
     }
     else
         MessageBoxA(NULL, "Invalid PlayerPawn", "EGS V2", MB_OK);
+
+    //CreateThread(0, 0, MainThread, 0, 0, 0);
 
     return 0;
 }
