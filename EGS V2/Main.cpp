@@ -50,6 +50,10 @@ unsigned long __stdcall Main(void*)
     {
         Globals::PlayerController->Possess(Globals::Pawn);
 
+        auto PlayerState = reinterpret_cast<AFortPlayerStateAthena*>(Globals::PlayerController->PlayerState);
+        PlayerState->TeamIndex = EFortTeam::HumanPvP_Team1;
+        PlayerState->OnRep_TeamIndex();
+
         Sleep(2000);
 
         Globals::PlayerController->ServerReadyToStartMatch();

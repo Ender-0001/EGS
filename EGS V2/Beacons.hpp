@@ -2,12 +2,13 @@
 
 namespace Beacons
 {
-	bool (*InitHost)(AOnlineBeaconHost*); //AOnlineBeaconHost::InitHost
-	void* (*NotifyControlMessage)(UWorld* World, UNetConnection* Connection, uint8 MessageType, void* InBunch); //UWorld::NotifyControlMessage
-	APlayerController* (*SpawnPlayActor)(UWorld* World, UPlayer* Player, ENetRole Role, FURL* InUrl, void* UniqueId, FString& Error, uint8 InNetPlayerIndex);
+	bool (*InitHost)(AOnlineBeaconHost*); // AOnlineBeaconHost::InitHost
+	void* (*NotifyControlMessage)(UWorld* World, UNetConnection* Connection, uint8 MessageType, void* InBunch); // UWorld::NotifyControlMessage
+	APlayerController* (*SpawnPlayActor)(UWorld* World, UPlayer* Player, ENetRole Role, FURL* InUrl, void* UniqueId, FString& Error, uint8 InNetPlayerIndex); // UWorld::SpawnPlayActor
 
 	namespace Hooks
 	{
+		// https://github.com/EpicGames/UnrealEngine/blob/4.16/Engine/Source/Runtime/Engine/Private/World.cpp#L4093
 		void* NotifyControlMessageHook(AOnlineBeaconHost* Beacon, UNetConnection* Connection, uint8 MessageType, void* InBunch)
 		{
 			if (std::to_string(MessageType) == "4")
@@ -15,14 +16,16 @@ namespace Beacons
 				Connection->CurrentNetSpeed = 10000;
 				return NULL;
 			}
+
 			return NotifyControlMessage(Globals::World, Connection, MessageType, InBunch);
 		}
 
+		// https://github.com/EpicGames/UnrealEngine/blob/4.16/Engine/Source/Runtime/Engine/Private/LevelActor.cpp#L686
 		APlayerController* SpawnPlayActorHook(UWorld* World, UPlayer* Player, ENetRole Role, FURL* InUrl, void* UniqueId, FString& Error, uint8 InNetPlayerIndex)
 		{
 			auto PlayerController = static_cast<AFortPlayerControllerAthena*>(SpawnPlayActor(Globals::World, Player, Role, InUrl, UniqueId, Error, InNetPlayerIndex));
 			auto FortPlayerState = static_cast<AFortPlayerStateAthena*>(PlayerController->PlayerState);
-			FortPlayerState->TeamIndex = static_cast<AFortPlayerStateAthena*>(Globals::Pawn->PlayerState)->TeamIndex;
+			FortPlayerState->TeamIndex = EFortTeam::HumanPvP_Team1;
 			FortPlayerState->OnRep_TeamIndex();
 
 			auto Pawn = SpawnActor<APlayerPawn_Athena_C>(APlayerPawn_Athena_C::StaticClass(), { 0, 0, 10000 }, {});
@@ -46,6 +49,7 @@ namespace Beacons
 			return PlayerController;
 		}
 
+		// https://github.com/EpicGames/UnrealEngine/blob/4.16/Engine/Source/Runtime/Engine/Private/PlayerController.cpp#L4210
 		void* ClientTravelHook(FString& URL, ETravelType TravelType, bool bSeamless, FGuid& MapPackage)
 		{
 			MH_DisableHook(reinterpret_cast<void*>((uintptr_t)GetModuleHandle(0) + 0x2315350));
@@ -65,6 +69,6 @@ namespace Beacons
 		MH_CreateHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x21D8700), Hooks::SpawnPlayActorHook, reinterpret_cast<void**>(&SpawnPlayActor));
 		MH_EnableHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x21D8700));
 		MH_CreateHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x2315350), Hooks::ClientTravelHook, nullptr);
-		MH_EnableHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x2315350));	
+		MH_EnableHook(reinterpret_cast<void*>(ModuleBaseAddr + 0x2315350));
 	}
 }
