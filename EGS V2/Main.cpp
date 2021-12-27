@@ -2,20 +2,13 @@
 #include <iostream>
 #include "SDK.hpp"
 
-using namespace SDK;
-
 #include "MinHook/MinHook.h"
 #pragma comment(lib, "MinHook/minhook.lib")
 
 #include "Offsets.hpp"
 #include "Globals.hpp"
 #include "Beacons.hpp"
-
-enum EBeaconState
-{
-    AllowRequests,
-    DenyRequests
-};
+#include "Gui.h"
 
 DWORD MainThread(LPVOID lpParam)
 {
@@ -23,7 +16,11 @@ DWORD MainThread(LPVOID lpParam)
     {
         if (GetAsyncKeyState(VK_SPACE) & 0x8000)
         {
-            
+
+        }
+        else if (GetAsyncKeyState(VK_F6) & 0x8000)
+        {
+
         }
 
         Sleep(1000 / 60);
@@ -41,41 +38,14 @@ unsigned long __stdcall Main(void*)
 
     MH_Initialize();
     Globals::Init();
-    /*auto Console = UConsole::StaticClass()->CreateDefaultObject<UConsole>();
+    auto Console = UConsole::StaticClass()->CreateDefaultObject<UConsole>();
     Console->Outer = Globals::LocalPlayer->ViewportClient;
 
     Globals::LocalPlayer->ViewportClient->ViewportConsole = Console;
 
-    MessageBoxA(NULL, "Press okay when the loading bar is ready", "EGS V2", MB_OK);*/
-    Beacons::Init();
+    CreateThread(0, 0, GuiThread, 0, 0, 0);
 
-    auto Beacon = SpawnActor<AOnlineBeaconHost>(AOnlineBeaconHost::StaticClass(), { 0, 0, 10000 }, {});
-    Beacon->ListenPort = 7777;
-
-    Beacons::InitHost(Beacon);
-    Beacon->BeaconState = EBeaconState::AllowRequests;
-
-    TArray<AActor*> OutActors;
-    Globals::GameplayStatics->STATIC_GetAllActorsOfClass(Globals::World, APlayerPawn_Athena_C::StaticClass(), &OutActors);
-    Globals::Pawn = static_cast<APlayerPawn_Athena_C*>(OutActors[0]);
-
-    if (Globals::Pawn)
-    {
-        Globals::PlayerController->Possess(Globals::Pawn);
-
-        auto PlayerState = reinterpret_cast<AFortPlayerStateAthena*>(Globals::PlayerController->PlayerState);
-        PlayerState->TeamIndex = EFortTeam::HumanPvP_Team1;
-        PlayerState->OnRep_TeamIndex();
-
-        Sleep(2000);
-
-        Globals::PlayerController->ServerReadyToStartMatch();
-        static_cast<AGameMode*>(Globals::World->AuthorityGameMode)->StartMatch();
-    }
-    else
-        MessageBoxA(NULL, "Invalid PlayerPawn", "EGS V2", MB_OK);
-
-    //CreateThread(0, 0, MainThread, 0, 0, 0);
+    // CreateThread(0, 0, MainThread, 0, 0, 0);
 
     return 0;
 }
